@@ -6,7 +6,81 @@
 •	Ends when the user types "done".
 •	Finally prints a receipt showing: List of selected items with prices and total cost
 """
+# Import datetime class from datetime module
+#Used for to get the current date in the reciept
+from datetime import datetime
 
+snacks = {1:["Doritos", 2.99],
+          2:["Cheetos", 3.99],
+          3:["Cheez-its", 5.99],
+          4:["Beef Jerky", 4.99], 
+          5:["Oreos" , 6.99],
+          6:["M&M's", 6.59], 
+          7:["Snickers", 7.99],
+          8:["Rice Krispie Treats", 8.99],
+          9:["Granola Bars", 5.99], 
+          10:["Pretzel/Chex Mix", 9.99]}  
+drinks = {1:["Water", 1.99],
+          2:["Tea", 2.69],
+          3:["Coffee", 5.99],
+          4:["Apple Juice", 5.99],
+          5:["Orange Juice", 4.99],
+          6:["Coca Cola", 2.99],
+          7:["Green Tea", 3.99],
+          8:["Ginger Tea", 3.99],
+          9:["Nectar", 6.99],
+          10:["Ginger ale", 3.99]}  #
+
+print("Item Number:    Price:     Snacks")
+print("----------------------------------------")
+for k,v in snacks.items():
+    print(f"Item #{k}          {v[1]}      {v[0]}")
+print("----------------------------------------")
+print("From above snacks display, please select the Item#. If you don't any of the tems listed, type 'done'")
+snacks_selected = {} #Tracks of selected snacks and their prices.
+while True:
+    item_number = input("Please select Item#1. Example: 1,2, 3. If you are done selecting, type 'done'")
+    if(str(item_number).lower() == "done"):
+        break  #Exit from the loop
+    else:
+        snacks_selected[int(item_number)] = snacks[int(item_number)]
+
+print("Item Number:    Price:     Drinks")
+print("----------------------------------------")
+for k,v in drinks.items():
+    print(f"Item #{k}          {v[1]}      {v[0]}")
+print("----------------------------------------")
+print("From above drinks display, please select the Item#. If you don't any of the tems listed, type 'done'")
+drinks_selected = {} #Tracks of selected drinks and their prices.
+while True:
+    item_number = input("Please select Item#1. Example: 1,2, 3. If you are done selecting, type 'done'")
+    if(str(item_number).lower() == "done"):
+        break
+    else:
+        drinks_selected[int(item_number)] = drinks[int(item_number)]
+
+now = datetime.now()  #Get the curret time
+print(f"======Receipt=======" )
+print("Here are the snacks selected")
+print("Item Number:    Price:     Drinks")
+print("----------------------------------------")
+price = 0.0  #used to get the total price
+for k,v in snacks_selected.items(): #Enumerating the selected snacks from temp tracked dictionary
+    print(f"Item #{k}          {v[1]}      {v[0]}")
+    price += v[1]   #Summing up the price for snacks
+print("----------------------------------------")
+
+print("Here are the drinks selected")
+print("Item Number:    Price:     Drinks")
+print("----------------------------------------")
+for k,v in drinks_selected.items(): #Enumerating the selected drinks from temp tracked dictionary
+    print(f"Item #{k}          {v[1]}      {v[0]}")
+    price += v[1] #On top of the snacks, it adds the price of erach drinks selected
+print("----------------------------------------")
+
+price = round(price*1.06, 2)  #Adding 6% gov tax from the total price value
+print(f"Total Price with 6% gov tax included:= ${price}")
+print(f"Date: {now}" )   #Printing the current time
 """
 2)	Write a program that:
 •	Has a predefined dictionary of groceries with prices.
