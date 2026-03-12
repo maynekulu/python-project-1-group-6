@@ -6,6 +6,9 @@
 •	Ends when the user types "done".
 •	Finally prints a receipt showing: List of selected items with prices and total cost
 """
+# Import datetime class from datetime module
+#Used for to get the current date in the reciept
+from datetime import datetime
 
 # # Import datetime class from datetime module
 # #Used for to get the current date in the reciept
