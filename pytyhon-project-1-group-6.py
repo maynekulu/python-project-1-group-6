@@ -353,6 +353,7 @@ quiz= [{"Can a LIST have duplicate values in python? [Yes/No] ":"Yes"},
        {"Can we have multiple keys referencing to the same value without issue in dictionary? [Yes/No] ":"Yes"}]
 assesment = []
 
+correct_answer = []
 for i in range(5):
     for k,v in quiz[i].items():
         print(f"{k}")
@@ -361,8 +362,17 @@ for i in range(5):
             assesment.append(1)
         else:
             assesment.append(0)
+            correct_answer.append({k:v})
 sum = 0
 for i in range(len(assesment)):
     sum +=assesment[i]
-
+print("----------------------------")
 print(f"Your score:  {sum} out of 5")
+print("----------------------------")
+print()
+print("Here is the correct answers for the questions you got wrong")
+print("-----------------------------------------------------")
+for i in range(len(correct_answer)):
+    for k,v in correct_answer[i].items():
+        print(f"{k} ==> {v}")
+print("-----------------------------------------------------")
