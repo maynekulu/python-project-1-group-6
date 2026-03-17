@@ -6,9 +6,6 @@
 •	Ends when the user types "done".
 •	Finally prints a receipt showing: List of selected items with prices and total cost
 """
-# Import datetime class from datetime module
-#Used for to get the current date in the reciept
-from datetime import datetime
 
 # # Import datetime class from datetime module
 # #Used for to get the current date in the reciept
@@ -35,11 +32,12 @@ from datetime import datetime
 #           9:["Nectar", 6.99],
 #           10:["Ginger ale", 3.99]}  #
 
-# print("Item Number:    Price:     Snacks")
-# print("----------------------------------------")
+# print("Item Number:   Price:              Snacks")
+# print("-"*40)
 # for k,v in snacks.items():
-#     print(f"Item #{k}          {v[1]}      {v[0]}")
-# print("----------------------------------------")
+#     #print(f"Item #{k}          {v[1]}      {v[0]}")
+#     print(f"Item #{k:<8}|{v[0]:<20}|${v[1]:<5}")
+# print("-"*40)
 # print("From above snacks display, please select the Item#. If you don't any of the tems listed, type 'done' : ")
 # snacks_selected = {} #Tracks of selected snacks and their prices.
 # while True:
@@ -49,11 +47,12 @@ from datetime import datetime
 #     else:
 #         snacks_selected[int(item_number)] = snacks[int(item_number)]
 
-# print("Item Number:    Price:     Drinks")
-# print("----------------------------------------")
+# print("Item Number:  Price:          Drinks")
+# print("-"*40)
 # for k,v in drinks.items():
-#     print(f"Item #{k}          {v[1]}      {v[0]}")
-# print("----------------------------------------")
+#     #print(f"Item #{k}          {v[1]}      {v[0]}")
+#     print(f"Item #{k:<8}|{v[0]:<15}|${v[1]:<5}") #print formating
+# print("-"*40)
 # print("From above drinks display, please select the Item#. If you don't any of the tems listed, type 'done' : ")
 # drinks_selected = {} #Tracks of selected drinks and their prices.
 # while True:
@@ -66,19 +65,20 @@ from datetime import datetime
 # now = datetime.now()  #Get the curret time
 # print(f"======Receipt=======" )
 # print("Here are the snacks selected")
-# print("Item Number:    Price:     Drinks")
+# print("Item Number:   Price:              Snacks")
 # print("----------------------------------------")
 # price = 0.0  #used to get the total price
 # for k,v in snacks_selected.items(): #Enumerating the selected snacks from temp tracked dictionary
-#     print(f"Item #{k}          {v[1]}      {v[0]}")
+#     #print it in 8,20 and 5 character spacing
+#     print(f"Item #{k:<8}|{v[0]:<20}|${v[1]:<5}")
 #     price += v[1]   #Summing up the price for snacks
 # print("----------------------------------------")
 
 # print("Here are the drinks selected")
-# print("Item Number:    Price:     Drinks")
+# print("Item Number:  Price:          Drinks")
 # print("----------------------------------------")
 # for k,v in drinks_selected.items(): #Enumerating the selected drinks from temp tracked dictionary
-#     print(f"Item #{k}          {v[1]}      {v[0]}")
+#     print(f"Item #{k:<8}|{v[0]:<15}|${v[1]:<5}")
 #     price += v[1] #On top of the snacks, it adds the price of erach drinks selected
 # print("----------------------------------------")
 
@@ -128,12 +128,12 @@ from datetime import datetime
 
 # Subtotal = {}
 # total = 0.0
-# for k,v in cart.items():
+# for k,qnt in cart.items():
 #     #price = 0.0
 #     for key, value in gorceriies_dictionary.items():
 #         if k==key:
 #             #price = round(value*v*1.06, 2)  #Including goverment tax
-#             Subtotal[k] = round(value*v*1.06, 2)
+#             Subtotal[k] = round(value*qnt*1.06, 2)
 #             total+= Subtotal[k]
 
 # print("Here are the selection with subtotal:")
@@ -157,72 +157,114 @@ from datetime import datetime
 •	Keeps looping until the user types "exit".
 •	Shows a summary at the end: number of completed tasks vs pending.
 """
-# to_do_list = {}   #{task:priority}  #Priority: High, Midium, Law
-# complted_tasks = {} #Tracks completed tasks
-# pending_tasks = {} #Track pending tasks
-# i = 1
-# while True: #Building a to-do list manager
-#     track = []
-#     #Allows users to add tasks with priorities
-#     get_to_do_list = input("Please Enter things to do? to end, type 'exit' : ")
-#     if(get_to_do_list.lower() == 'exit'):
-#         break
-#     else:
-#         set_priority =input("What is the Priority?[High, Medium, Low] : ")
-#         track.append(get_to_do_list)
-#         track.append(set_priority)
-#         #to_do_list[get_to_do_list] = set_priority
-#         to_do_list[i] = track  
-#         i+=1
-# #Viewing the current list
-# print("------------------------------------------")
-# print("-------------To Do Lists------------------")
-# print("------------------------------------------")
-# print("No.:  Priorities:     To Do List")
-# print("------------------------------------------")
-# for k,v in to_do_list.items():
-#     print(f"{k}          {v[1]}          {v[0]}")
-# print("----------------------------------------")
+to_do_list = {}   #{Item No#: [task,priority, Status]}  #Priority: High, Midium, Law
+complted_tasks = {} #Tracks completed tasks
+removed_tasks = {} #Track pending tasks
 
-# print("Working on To-do-list....")
-# print("In progeess...")
+track_to_list_key = []
+Actions = [1,2,3,4,5] 
+i = 1
+while True: #Building a to-do list manager
+    try:
+        print("*"*10 + "To Do List" + "*"*10)
+        print("1. Add Do List" )
+        print("2. View Do List" )
+        print("3. Complete Do List" )
+        print("4. Remove Do List")
+        print("5. Exit")
+        print("*"*10 + "To Do List" + "*"*10)
+        select_action = input("Please select actions: 1:Add| 2:View| 3:Complete| 4:Remove|5. Exit")
+        
+        if select_action.isdigit():
+            select_action = int(select_action)
+        else:
+            print("Valid values are 1-5")
+            continue
 
-# for k,v in to_do_list.items():
-#     status = input(f"Have you completed No. {k}, which is {v[0]} with priority {v[1]} -->[y/n] : ")
-#     if status.lower() =='y':
-#         complted_tasks[k] = v
-#     else:
-#         pending_tasks[k] = v
+        if select_action not in(Actions):
+            print("Invalid selections. Please select 1:Add| 2:View| 3:Complete| 4:Remove|5. Exit")
+            continue
 
+        track = []
+        if select_action == 1:
+            #Allows users to add tasks with priorities
+            get_to_do_list = input("Please Add To-Do-List. To end, type 'exit' : ")
+            if(get_to_do_list.lower() == 'exit'):
+                break
+            else:
+                set_priority =input("What is the Priority?[High, Medium, Low] : ")
+                track.append(get_to_do_list)
+                track.append(set_priority)
+                track.append("Pending")
+                track_to_list_key.append(i)
+                #to_do_list[get_to_do_list] = set_priority
+                to_do_list[i] = track  
+                i+=1
+        elif select_action == 2:
+            if not to_do_list:  #if len(to_do_list) == 0
+                print("There is no ToDoList to view:")
+            else:#Viewing the current list
+                print("-"*40)
+                print("-------------To Do Lists------------------")
+                print("------------------------------------------")
+                print("No.:  Status   Priorities:     To Do List")
+                print("-"*40)
+                for key,priority in to_do_list.items():
+                    print(f"{key:<5}|{priority[2]:<10}|{priority[1]:<15}|{priority[0]:<100}")
+                print("----------------------------------------")
+        elif select_action == 3:
+            if not to_do_list:  #if len(to_do_list) == 0
+                print("There is not ToDoList to Complete:")
+            else:
+                print("------------------------------------------")
+                print("-------------To Do Lists------------------")
+                print("------------------------------------------")
+                print("No.:  Status       Priorities:     To Do List")
+                print("------------------------------------------")
+                for key,priority in to_do_list.items():
+                    print(f"{key:<5}|{priority[2]:<10}{priority[1]:<6}|{priority[0]:<100}")
+                print("----------------------------------------")
 
-# #Viewing the completed tasks
-# print("------------------------------------------")
-# print("-------------Completed Tasks--------------")
-# print("------------------------------------------")
-# print("No.:  Priorities:     To Do List")
-# print("------------------------------------------")
-# for k,v in complted_tasks.items():
-#     print(f"{k}          {v[1]}          {v[0]}")
-# print("----------------------------------------")
+                status = input(f"Plase select ToDoList to complete. Example 1,2. Type 'exit' to exit")
+                if int(status) in track_to_list_key:
+                    to_do_list[int(status)][2] = "Completed"
+                    complted_tasks[int(status)] =  to_do_list.values()
+                else:
+                    print("Selection to Complete is invalid")
 
+        elif select_action == 4:
+            if not to_do_list:  #if len(to_do_list) == 0
+                print("There is not ToDoList to Remove:")
+            else:
+                print("------------------------------------------")
+                print("-------------To Do Lists------------------")
+                print("------------------------------------------")
+                print("No.:  Status       Priorities:     To Do List")
+                print("------------------------------------------")
+                for key,priority in to_do_list.items():
+                    print(f"{key:<5}|{priority[2]:<10}{priority[1]:<6}|{priority[0]:<100}")
+                print("----------------------------------------")
+                status = input(f"Plase select ToDoList to Remove. Example 1,2. Type 'exit' to exit")
+                if int(status) in track_to_list_key:
+                    removed_tasks[int(status)] =  to_do_list.values()
+                    del to_do_list[int(status)]
+                    # By default, Python does not renumber keys after deletion. It only removes the key:
+                    #To rebuild the dictionary with new keys:
+                    to_do_list = {index: value for index, value in enumerate(to_do_list.values(), start=1)}
+                else:
+                    print("Selection to Remove is invalid")
+        else:
+            break
 
-# #Viewing the pending tasks
-# print("------------------------------------------")
-# print("-------------Pending Tasks----------------")
-# print("------------------------------------------")
-# print("No.:  Priorities:     To Do List")
-# print("------------------------------------------")
-# for k,v in pending_tasks.items():
-#     print(f"{k}          {v[1]}          {v[0]}")
-# print("----------------------------------------")
+    except ValueError:
+        print("Invalid input. Please enter an integer")    
 
-# #Shows a summary at the end: number of completed tasks vs pending.
-# print("------------------------------------------")
-# print("---number of completed tasks vs pending---")
-# print("------------------------------------------")
-# print("Total Number of Completed Tasks: ", len(complted_tasks) )
-# print("Total Number of Pending Tasks: ", len(pending_tasks) )
-# print("------------------------------------------")
+print("------------------------------------------")
+print("---number of completed tasks vs pending---")
+print("------------------------------------------")
+print("Total Number of Completed Tasks: ", len(complted_tasks) )
+print("Total Number of Pending Tasks: ", len(to_do_list) - len(complted_tasks) )
+print("------------------------------------------")
 
 
 """
@@ -346,33 +388,33 @@ from datetime import datetime
 o	The user's score (e.g., 7/10)
 o	Correct answers for any questions they got wrong
 """
-quiz= [{"Can a LIST have duplicate values in python? [Yes/No] ":"Yes"}, 
-       {"Can a SET have duplicate values in python? [Yes/No] ": "No"}, 
-       {"What is SQL stands for?": "Structured Query Language"},
-       {"Can a key in a dictionary be duplicated in python?[Yes/No] ":"No"},
-       {"Can we have multiple keys referencing to the same value without issue in dictionary? [Yes/No] ":"Yes"}]
-assesment = []
+# quiz= [{"Can a LIST have duplicate values in python? [Yes/No] ":"Yes"}, 
+#        {"Can a SET have duplicate values in python? [Yes/No] ": "No"}, 
+#        {"What is SQL stands for?": "Structured Query Language"},
+#        {"Can a key in a dictionary be duplicated in python?[Yes/No] ":"No"},
+#        {"Can we have multiple keys referencing to the same value without issue in dictionary? [Yes/No] ":"Yes"}]
+# assesment = []
 
-correct_answer = []
-for i in range(5):
-    for k,v in quiz[i].items():
-        print(f"{k}")
-        answer = input("What is your answer? ")
-        if answer.lower() == v.lower():
-            assesment.append(1)
-        else:
-            assesment.append(0)
-            correct_answer.append({k:v})
-sum = 0
-for i in range(len(assesment)):
-    sum +=assesment[i]
-print("----------------------------")
-print(f"Your score:  {sum} out of 5")
-print("----------------------------")
-print()
-print("Here is the correct answers for the questions you got wrong")
-print("-----------------------------------------------------")
-for i in range(len(correct_answer)):
-    for k,v in correct_answer[i].items():
-        print(f"{k} ==> {v}")
-print("-----------------------------------------------------")
+# correct_answer = []
+# for i in range(5):
+#     for k,v in quiz[i].items():
+#         print(f"{k}")
+#         answer = input("What is your answer? ")
+#         if answer.lower() == v.lower():
+#             assesment.append(1)
+#         else:
+#             assesment.append(0)
+#             correct_answer.append({k:v})
+# sum = 0
+# for i in range(len(assesment)):
+#     sum +=assesment[i]
+# print("----------------------------")
+# print(f"Your score:  {sum} out of 5")
+# print("----------------------------")
+# print()
+# print("Here is the correct answers for the questions you got wrong")
+# print("-----------------------------------------------------")
+# for i in range(len(correct_answer)):
+#     for k,v in correct_answer[i].items():
+#         print(f"{k} ==> {v}")
+# print("-----------------------------------------------------")
